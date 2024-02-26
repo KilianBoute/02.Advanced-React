@@ -2,10 +2,10 @@ import React from "react";
 import Slots from "./Slots";
 import Hints from "./Hints";
 
-export default function Row() {
+export default function Row(props) {
   return (
-    <div>
-      <Slots />
+    <div className="row">
+      <Slots rowId={props.rowId} />
       <Hints />
     </div>
   );

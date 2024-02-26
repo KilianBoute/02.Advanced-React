@@ -4,9 +4,8 @@ import Row from "./Row";
 export default function Board() {
   return (
     <div>
-      board
       {[...Array(12)].map((_, i) => (
-        <Row key={i} />
+        <Row key={i} rowId={i} />
       ))}
     </div>
   );

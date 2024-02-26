@@ -1,10 +1,13 @@
 import React from "react";
+import Peg from "./Peg";
 
-export default function Slots() {
-  let slots = [];
-  for (let i = 0; i < 4; i++) {
-    slots.push("*");
-  }
-
-  return <span>{slots}</span>;
+export default function Slots(props) {
+  const { rowId } = props;
+  return (
+    <div className="slots empty">
+      {[...Array(4)].map((_, i) => (
+        <Peg key={i} pegId={i} rowId={rowId} />
+      ))}
+    </div>
+  );
 }
