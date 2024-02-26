@@ -1,5 +1,10 @@
 import React from "react";
 
 export default function Slots() {
-  return <div>slots</div>;
+  let slots = [];
+  for (let i = 0; i < 4; i++) {
+    slots.push("*");
+  }
+
+  return <span>{slots}</span>;
 }
