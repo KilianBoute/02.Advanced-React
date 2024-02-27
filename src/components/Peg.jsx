@@ -1,13 +1,11 @@
 import React from "react";
 
-export default function Peg(props) {
+export default function Peg({ pegId, rowId }) {
   return (
     <div
-      className="peg"
+      className="peg empty"
       onClick={() => {
-        console.log(
-          "peg " + props.pegId + " on row  " + props.rowId + " clicked"
-        );
+        console.log("peg " + pegId + " on row  " + rowId + " clicked");
       }}
     ></div>
   );

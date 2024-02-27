@@ -1,7 +1,11 @@
-import React from 'react'
+import React from "react";
 
-export default function ColorPicker() {
+export default function ColorPicker({ colors }) {
   return (
-    <div>ColorPicker</div>
-  )
+    <div className="colorPicker">
+      {colors.map((color, i) => {
+        return <div className={`color ${color}`} key={i} />;
+      })}
+    </div>
+  );
 }
