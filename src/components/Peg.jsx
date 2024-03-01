@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "./Board";
 
-export default function Peg({ pegId, rowId, onPegClick }) {
+export default function Peg({ pegId, rowId }) {
+  const [pegColors, colorPicked, handlePegClick] = useContext(Context);
+  const pegColor = pegColors[rowId][pegId] || "";
+
   return (
     <div
-      className="peg empty"
+      className={`peg ${pegColor}`}
       onClick={() => {
-        onPegClick(rowId, pegId);
+        handlePegClick(rowId, pegId);
       }}
     ></div>
   );

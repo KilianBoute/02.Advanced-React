@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useContext } from "react";
+import { Context } from "./Board";
 
-export default function CheckRow() {
+export default function CheckRow({ rowId }) {
+  const [, , , handleCheckRowClick] = useContext(Context);
   return (
-    <div>checkRow</div>
-  )
+    <button
+      onClick={() => {
+        handleCheckRowClick(rowId);
+      }}
+      className="checkButton"
+    >
+      check
+    </button>
+  );
 }

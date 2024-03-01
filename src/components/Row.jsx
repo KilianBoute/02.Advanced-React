@@ -1,11 +1,13 @@
 import React from "react";
 import Slots from "./Slots";
 import Hints from "./Hints";
+import CheckRow from "./CheckRow";
 
-export default function Row(props) {
+export default function Row({ rowId }) {
   return (
     <div className="row">
-      <Slots rowId={props.rowId} onPegClick={props.onPegClick} />
+      <Slots rowId={rowId} />
+      <CheckRow rowId={rowId} />
       <Hints />
     </div>
   );

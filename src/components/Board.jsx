@@ -1,39 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import Row from "./Row";
 import ColorPicker from "./ColorPicker";
+
+export const Context = createContext();
 
 export default function Board() {
   const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
 
-  const [colorPicked, setColorPicked] = useState([]);
-  const [pegPicked, setPegPicked] = useState([]);
+  const [colorPicked, setColorPicked] = useState("empty");
+  const [pegColors, setPegColors] = useState(
+    Array.from({ length: 12 }, () => Array(4).fill("empty"))
+  );
+  const [currentRow, setCurrentRow] = useState(0);
 
   useEffect(() => {
     console.log("Color picked updated:", colorPicked);
   }, [colorPicked]);
 
   useEffect(() => {
-    console.log("peg selected: ", pegPicked);
-  }, [pegPicked]);
+    console.log("Peg colors updated:", pegColors);
+  }, [pegColors]);
+
+  useEffect(() => {
+    console.log("Active row: " + currentRow);
+  }, [currentRow]);
 
   const handleColorClick = (color) => {
-    setColorPicked((prevColorPicked) => [...prevColorPicked, { color }]);
+    setColorPicked(color);
   };
 
   const handlePegClick = (rowId, pegId) => {
-    if (colorPicked === null) return;
+    if (colorPicked === "empty") return;
+    if (currentRow !== rowId) return;
+    const newPegColors = [...pegColors];
+    newPegColors[rowId][pegId] = colorPicked;
+    setPegColors(newPegColors);
+  };
 
-    setPegPicked((prevPegPicked) => [...prevPegPicked, { rowId, pegId }]);
+  const handleCheckRowClick = (rowId) => {
+    console.log(currentRow + "===" + rowId);
+    if (currentRow !== rowId) return;
+    setCurrentRow(currentRow + 1);
+    console.log(currentRow + "===" + rowId);
   };
 
   return (
     <div className="board">
-      <ColorPicker colors={colors} onColorClick={handleColorClick} />
-      <div>
+      <Context.Provider
+        value={[pegColors, colorPicked, handlePegClick, handleCheckRowClick]}
+      >
+        <ColorPicker colors={colors} onColorClick={handleColorClick} />
         {[...Array(12)].map((_, i) => (
-          <Row key={i} rowId={i} onPegClick={handlePegClick} />
+          <Row key={i} rowId={i} />
         ))}
-      </div>
+      </Context.Provider>
     </div>
   );
 }
