@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import Row from "./Row";
 import ColorPicker from "./ColorPicker";
+import GameControls from "./GameControls";
 
 export const Context = createContext();
 
@@ -38,17 +39,28 @@ export default function Board() {
   };
 
   const handleCheckRowClick = (rowId) => {
-    console.log(currentRow + "===" + rowId);
     if (currentRow !== rowId) return;
     setCurrentRow(currentRow + 1);
-    console.log(currentRow + "===" + rowId);
+  };
+
+  const handleNewGameClick = () => {
+    console.log("New game started");
+    setCurrentRow(0);
+    setPegColors(Array.from({ length: 12 }, () => Array(4).fill("empty")));
   };
 
   return (
     <div className="board">
       <Context.Provider
-        value={[pegColors, colorPicked, handlePegClick, handleCheckRowClick]}
+        value={[
+          pegColors,
+          colorPicked,
+          handlePegClick,
+          handleCheckRowClick,
+          handleNewGameClick,
+        ]}
       >
+        <GameControls />
         <ColorPicker colors={colors} onColorClick={handleColorClick} />
         {[...Array(12)].map((_, i) => (
           <Row key={i} rowId={i} />
