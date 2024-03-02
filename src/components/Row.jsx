@@ -9,7 +9,7 @@ export default function Row({ rowId, currentRow }) {
     <div className={`row ${isActiveRow ? "activeRow" : ""}`}>
       <Slots rowId={rowId} />
       <CheckRow rowId={rowId} />
-      <Hints />
+      <Hints rowId={rowId} />
     </div>
   );
 }

@@ -15,6 +15,9 @@ export default function Board() {
   );
   const [currentRow, setCurrentRow] = useState(-1);
   const [currentSolution, setCurrentSolution] = useState([]);
+  const [currentHints, setCurrentHints] = useState(
+    Array.from({ length: 12 }, () => Array(4).fill("empty"))
+  );
 
   useEffect(() => {
     console.log("Current solution: " + currentSolution);
@@ -33,6 +36,10 @@ export default function Board() {
     console.log("colors in row: " + pegColors[currentRow]);
   }, [currentRow, pegColors]);
 
+  useEffect(() => {
+    console.log("Current hints: " + currentHints[currentRow]);
+  }, [currentRow, currentHints]);
+
   const handleColorClick = (color) => {
     setColorPicked(color);
   };
@@ -45,11 +52,44 @@ export default function Board() {
   };
 
   const checkRow = () => {
-    const pegColorsString = pegColors[currentRow].join("");
-    const currentSolutionString = currentSolution.join("");
-    if (pegColorsString === currentSolutionString) {
-      alert("correct");
+    // const pegColorsString = pegColors[currentRow].join("");
+    // const currentSolutionString = currentSolution.join("");
+    //  if (pegColorsString === currentSolutionString) {
+    //    alert("correct");
+    //    return;
+    //  }
+
+    const correctPegs = [];
+    const almostPegs = [];
+    const solutionCopy = [...currentSolution];
+    const colorsChecked = [];
+
+    for (let i = 0; i < 4; i++) {
+      if (pegColors[currentRow][i] === solutionCopy[i]) {
+        correctPegs.push("white");
+      }
+      if (
+        !colorsChecked.includes(i) &&
+        solutionCopy.includes(pegColors[currentRow][i])
+      ) {
+        almostPegs.push("grey");
+        colorsChecked.push(pegColors[currentRow][i]);
+      }
     }
+
+    const hints = correctPegs.concat(almostPegs);
+
+    currentHints[currentRow] = hints.concat(
+      currentHints[currentRow].slice(hints.length)
+    );
+
+    console.log("na checkRow: " + currentHints[currentRow]);
+
+    setCurrentHints((prevHints) => {
+      const newHints = [...prevHints];
+      newHints[currentRow] = hints;
+      return newHints;
+    });
   };
 
   const handleCheckRowClick = (rowId) => {
@@ -59,14 +99,10 @@ export default function Board() {
     setCurrentRow(currentRow + 1);
   };
 
-  const getRandomIndex = () => {
-    return Math.floor(Math.random() * 5);
-  };
-
   const getNewSolution = () => {
     const newSolution = [];
     for (let i = 0; i < 4; i++) {
-      newSolution.push(colors[getRandomIndex()]);
+      newSolution.push(colors[Math.floor(Math.random() * 5)]);
     }
     console.log("solution" + newSolution);
     return newSolution;
@@ -77,7 +113,7 @@ export default function Board() {
     setCurrentRow(0);
     setPegColors(Array.from({ length: 12 }, () => Array(4).fill("empty")));
     setCurrentSolution(getNewSolution());
-    console.log(getRandomIndex());
+    setCurrentHints(Array.from({ length: 12 }, () => Array(4).fill("empty")));
   };
 
   return (
@@ -89,6 +125,7 @@ export default function Board() {
           handlePegClick,
           handleCheckRowClick,
           handleNewGameClick,
+          currentHints
         ]}
       >
         <Solution solution={currentSolution} />
