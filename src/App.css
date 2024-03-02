@@ -14,12 +14,21 @@ header {
   margin: 2rem;
   display: flex;
   align-items: center;
+  padding: 1rem;
+}
+
+.activeRow {
+  border: 2px solid wheat;
 }
 
 .slots {
   display: flex;
   align-items: center;
   margin-inline: 2rem;
+}
+
+.solution {
+  height: 50px;
 }
 
 .peg {
