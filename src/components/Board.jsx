@@ -8,7 +8,6 @@ export const Context = createContext();
 
 export default function Board() {
   const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
-
   const [colorPicked, setColorPicked] = useState("empty");
   const [pegColors, setPegColors] = useState(
     Array.from({ length: 12 }, () => Array(4).fill("empty"))

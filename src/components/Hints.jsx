@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import { Context } from "./Board";
 
 export default function Hints({ rowId }) {
-  const [pegColors, , , , , currentHints] = useContext(Context);
+  const [, , , , , currentHints] = useContext(Context);
 
-  // Check if currentHints is defined and has a valid entry for the current row
-  const hintColors =
+const hintColors =
     currentHints && currentHints[rowId] ? currentHints[rowId] : [];
 
   return (
